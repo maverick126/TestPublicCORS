@@ -17,13 +17,11 @@
         "datadisksizeGB": {
             "value": 1024
         },
+        "location": {
+            "value": "australiasoutheast"
+        }
         "adminPassword": {
-            "reference": {
-              "keyVault": {
-                "id": "/subscriptions/d8fc4dbd-42d5-4444-bd5b-1c3215b58a58/resourceGroups/RG-FCTG-SHD-NET-AAE-001/providers/Microsoft.KeyVault/vaults/ARMDeploymentKeyVault"
-              },
-              "secretName": "sqldba"
-            }
+            "value": ""
         }   
     }
 
