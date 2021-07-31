@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "instanceNumber": {
+            "value": 1
+        },
+        "virtualMachineSize": {
+            "value": "Standard_D4S_v3"
+        },      
+        "sqlImageOffer": {
+            "value": "SQL2016SP1-WS2012R2"
+        },        
+        "sqlImageSku": {
+            "value": "Enterprise"
+        },
+        "datadisksizeGB": {
+            "value": 1024
+        },
+        "adminPassword": {
+            "reference": {
+              "keyVault": {
+                "id": "/subscriptions/d8fc4dbd-42d5-4444-bd5b-1c3215b58a58/resourceGroups/RG-FCTG-SHD-NET-AAE-001/providers/Microsoft.KeyVault/vaults/ARMDeploymentKeyVault"
+              },
+              "secretName": "sqldba"
+            }
+        }   
+    }
+
+}
