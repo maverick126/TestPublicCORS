@@ -91,6 +91,13 @@
               "description": "SQL IaaS Data Disk Size in GB"
             }      
         },                    
+        "location": {
+          "type": "string",
+          "defaultValue": "[resourceGroup().location]",
+          "metadata": {
+            "description": "Location for all resources."
+          }
+        },  
         "adminPassword": {
             "type": "securestring"
         }          
@@ -99,10 +106,10 @@
         "lastV": "[sub(length(resourceGroup().Name),3)]",    
         "envPrefix": "[substring(resourceGroup().Name,variables('lastV'),1)]",
         "virtualMachineName": "[toLower(concat(variables('envPrefix'),'sqlaaew',padleft(string(parameters('instanceNumber')),3,'0')))]",
-        "subnetName": "[if(equals(variables('envPrefix'),'P'),'SN-DB-PRD-AAE-001','SN-DB-NPRD-AAE-001')]",
+        "subnetName": "mySubnet",
         "msiExtensionName": "ManagedIdentityExtensionForWindows",               
         "vnetId": "[resourceId('RG-FCTG-SHD-NET-AAE-001','Microsoft.Network/virtualNetworks', 'VNET-FCTG-SHD-AAE-001')]",
-        "vmnic": "[concat(variables('virtualMachineName'), '_devnic')]",
+        "vmnic": "[concat(variables('virtualMachineName'), '_nic')]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
         "vmosdisk": "[concat(variables('virtualMachineName'), '_osdisk')]",
         "vmdatadisk": "[concat(variables('virtualMachineName'), '_datadisk')]",
@@ -113,7 +120,7 @@
             "name": "[variables('virtualMachineName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2017-12-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('vmnic'))]"
             ],
@@ -174,7 +181,7 @@
             "apiVersion": "2016-05-15",
             "type": "Microsoft.devtestlab/schedules",
             "name": "[concat('shutdown-computevm-',variables('virtualMachineName'))]",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', variables('virtualMachineName'))]"
             ],
@@ -286,11 +293,11 @@
               "autoUpgradeMinorVersion": true,
               "settings": {
                 "WmfVersion": "latest",
-                "Modulesurl":"https://pstoaaep002.blob.core.windows.net/windows-powershell-dsc/saas_dsc.ps1.zip",
+                "Modulesurl":"https://xxxx.blob.core.windows.net/windows-powershell-dsc/saas_dsc.ps1.zip",
                 "ConfigurationFunction":"saas_dsc.ps1\\saas"
               },
               "protectedSettings": {
-                "ConfigurationUrlSasToken":"?sv=2017-11-09&ss=bfqt&srt=sco&sp=rlcp&se=2020-12-31T10:25:03Z&st=2018-10-23T02:25:03Z&spr=https&sig=c67ZT3INqjiM44eVxkQ3%2FWViGpTQsn%2BIcu5XtFlkwDM%3D"
+                "ConfigurationUrlSasToken":"?sv=2017-11-09&ss=bfqt&srt=sco&sp=rlcp&se=2020-12-31T10:25:03Z&st=2018-10-23T02:25:03Z&spr=https&sig=xxxxxxx"
               }
             }
         },                
